@@ -45,6 +45,8 @@ security:
         - { path: ^/admin/(tag|user), roles: ROLE_MODERATOR }
         - { path: ^/answer/validate, roles: ROLE_USER }
         - { path: ^/question/add, roles: ROLE_USER }
+                # Ajout route edit question
+        - { path: ^/question/edit/\d+, roles: ROLE_USER }
         - { path: ^/question/\d+, roles: ROLE_USER, methods: ["POST"] }
         - { path: ^/user/(profile|edit), roles: ROLE_USER }
 

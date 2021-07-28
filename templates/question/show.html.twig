@@ -9,7 +9,12 @@
 {% if is_granted('ROLE_MODERATOR') %}
     {% set btnLabel = question.isBlocked ? 'Débloquer cette question' : 'Bloquer cette question' %}
     <hr>
-    <p><a href="{{ path('admin_question_toggle', {'id': question.id}) }}" class="btn btn-warning">{{ btnLabel }}</a></p>
+    <a href="{{ path('admin_question_toggle', {'id': question.id}) }}" class="btn btn-warning mr-4">{{ btnLabel }}</a>
+{% endif %}
+
+{% if is_granted('edit', question) %}
+{% set btnLabel = 'Editer le post' %}
+<a href="{{ path('question_edit', {'id': question.id}) }}" class="btn btn-success">{{ btnLabel }}</a>
 {% endif %}
 
 <hr>
@@ -25,7 +30,10 @@
         {{ answer.body }}
     </div>
     <div>
+
+        {% if is_granted('validate', answer ) %}
         <a href="{{ path('answer_validate', {'id': answer.id}) }}" class="btn btn-sm btn-success">Accepter cette réponse</a>
+        {% endif %}
 
         {% if is_granted('ROLE_MODERATOR') %}
             {% set btnLabel = answer.isBlocked ? 'Débloquer cette réponse' : 'Bloquer cette réponse' %}

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Answer;
 use App\Entity\Question;
 use App\Entity\Tag;
-use App\Entity\User;
 use App\Form\AnswerType;
 use App\Form\QuestionType;
 use App\Repository\AnswerRepository;
@@ -133,6 +132,46 @@ class QuestionController extends AbstractController
         }
 
         return $this->render('question/add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/question/edit/{id}", name="question_edit", requirements={"id": "\d+"})
+     */
+    public function edit(Question $question = null, Request $request)
+    {       
+        if (null === $question) {
+            throw $this->createNotFoundException('Question non trouvée.');
+        }
+
+        $this->denyAccessUnlessGranted('edit', $question);
+
+        // if ($this->getUser() !== $question->getUser()) {
+        //     throw $this->createAccessDeniedException('Non autorisé.');
+        // }
+
+        $form = $this->createForm(QuestionType::class, $question);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $question = $form->getData();
+
+            // On associe le user connecté à la question
+            $question->setUser($this->getUser());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($question);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Question modifiée');
+
+            return $this->redirectToRoute('question_show', ['id' => $question->getId()]);
+        }
+
+        return $this->render('question/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
