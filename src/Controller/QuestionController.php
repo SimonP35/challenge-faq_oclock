@@ -10,10 +10,12 @@ use App\Form\QuestionType;
 use App\Repository\AnswerRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 class QuestionController extends AbstractController
 {
@@ -73,7 +75,7 @@ class QuestionController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $question->getActive() === true) {
 
             // $answer = $form->getData();
             // On associe Réponse
@@ -82,8 +84,14 @@ class QuestionController extends AbstractController
             // On associe le user connecté à la réponse
             $answer->setUser($this->getUser());
 
+            // On met à jour la propriété UpdatedAt de la question
+            $question->setUpdatedAt(new DateTime());
+
             $entityManager = $this->getDoctrine()->getManager();
+
             $entityManager->persist($answer);
+            $entityManager->persist($question);
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Réponse ajoutée');

@@ -52,9 +52,17 @@
 <hr>
 <h4>Proposer une réponse</h4>
 
+{% if question.active == true %}
+
 {{ form_start(form) }}
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary">Soumettre</button>
 {{ form_end(form) }}
+
+{% else %}
+
+<p>Cette question n'est plus active, vous ne pouvez plus y répondre.</p>
+
+{% endif %}
 
 {% endblock %}
