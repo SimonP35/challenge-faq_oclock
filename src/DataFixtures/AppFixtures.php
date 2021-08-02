@@ -83,12 +83,14 @@ class AppFixtures extends Fixture
         $questionsEntities = array();
 
         for ($i = 1; $i < 30; $i++) {
+            
             $question = new Question();
             $question->setTitle(rtrim($generator->unique()->sentence($nbWords = 9, $variableNbWords = true), '.') . ' ?');
             $question->setBody($generator->unique()->paragraph($nbSentences = 6, $variableNbSentences = true));
             $question->setCreatedAt($generator->unique()->dateTime($max = 'now', $timezone = null));
             $question->setVotes(0);
             $question->setUser($generator->randomElement($usersEntities));
+            $question->setActive(true);
 
             $manager->persist($question);
 

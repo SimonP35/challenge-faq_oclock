@@ -87,6 +87,7 @@ class Question
         $this->votes = 0;
         $this->isBlocked = false;
         $this->isSolved = false;
+        $this->active = true;
     }
 
     public function __toString()

@@ -21,7 +21,7 @@ class QuestionVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['edit'])
+        return in_array($attribute, ['edit', 'answer'])
             && $subject instanceof \App\Entity\Question;
     }
 
@@ -43,6 +43,11 @@ class QuestionVoter extends Voter
                     return true;
                 }
                 break;
+                
+            case 'answer':
+                return $subject->getActive();
+                break;
+    
         }
 
         return false;

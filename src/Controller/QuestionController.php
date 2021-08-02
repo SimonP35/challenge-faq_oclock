@@ -75,8 +75,9 @@ class QuestionController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $question->getActive() === true) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
+            $this->denyAccessUnlessGranted(('answer'), $question);
             // $answer = $form->getData();
             // On associe Réponse
             $answer->setQuestion($question);
@@ -90,7 +91,6 @@ class QuestionController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($answer);
-            $entityManager->persist($question);
 
             $entityManager->flush();
 
