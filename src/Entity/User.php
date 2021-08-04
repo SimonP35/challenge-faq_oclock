@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -18,11 +19,13 @@ class User implements UserInterface, \Serializable
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Groups({"questions_get", "tags_get"})
      */
     private $username;
 
@@ -33,11 +36,13 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=254, unique=true)
+     * @Groups({"questions_get", "tags_get"})
      */
     private $email;
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $isActive;
 
@@ -54,6 +59,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Role")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"questions_get", "tags_get"})
      */
     private $role;
 

@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,12 +15,14 @@ class Answer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
+     * @Groups({"questions_get", "tags_get"})
      */
     private $body;
 
@@ -31,16 +33,19 @@ class Answer
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $votes;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $isValidated;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $isBlocked;
 

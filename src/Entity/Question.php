@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,18 +17,21 @@ class Question
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Groups({"questions_get", "tags_get"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
+     * @Groups({"questions_get", "tags_get"})
      */
     private $body;
 
@@ -39,33 +42,39 @@ class Question
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $votes;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $isBlocked;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="questions")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"questions_get", "tags_get"})
      */
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question", orphanRemoval=true)
      * @ORM\OrderBy({"isValidated" = "DESC", "createdAt" = "ASC"})
+     * @Groups({"questions_get", "tags_get"})
      */
     private $answers;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="questions", cascade={"persist"})
+     * @Groups({"questions_get"})
      */
     private $tags;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"questions_get", "tags_get"})
      */
     private $isSolved;
 
@@ -76,6 +85,7 @@ class Question
 
     /**
      * @ORM\Column(type="boolean", options={"default" : true})
+     * @Groups({"questions_get", "tags_get"})
      */
     private $active;
 

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoleRepository")
@@ -18,6 +19,7 @@ class Role
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"questions_get", "tags_get"})
      */
     private $name;
 
