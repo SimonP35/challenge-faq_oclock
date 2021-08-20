@@ -4,7 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-
+    app.MAINTENANCE_SCHEDULED: '%env(bool:MAINTENANCE_SCHEDULED)%'
+    app.MAINTENANCE_DATE: '%env(string:MAINTENANCE_DATE)%'
+    app.IMAGES_DIRECTORY: '%kernel.project_dir%/public/uploads/images'
+    
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -20,6 +23,15 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+
+    App\Service\MaintenanceService:
+        arguments:
+            $maintenanceScheduled: '%app.MAINTENANCE_SCHEDULED%'
+            $maintenanceDate: '%app.MAINTENANCE_DATE%'
+
+    App\Service\ImageUploader:
+        arguments:
+            $targetDirectory: '%app.IMAGES_DIRECTORY%'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

@@ -10,12 +10,12 @@ use App\Form\QuestionType;
 use App\Repository\AnswerRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\UserRepository;
+use App\Service\ImageUploader;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
 
 class QuestionController extends AbstractController
 {
@@ -115,7 +115,7 @@ class QuestionController extends AbstractController
     /**
      * @Route("/question/add", name="question_add")
      */
-    public function add(Request $request, UserRepository $userRepository)
+    public function add(Request $request, ImageUploader $iu)
     {
         $question = new Question();
 
@@ -126,6 +126,18 @@ class QuestionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $question = $form->getData();
+
+            $image = $form->get('image')->getData();
+
+            // dd($image);
+
+            if ($image) {
+
+                $fileName = $iu->upload($image);
+                $question->setImage($fileName);
+            }
+
+            dd($question);
 
             // On associe le user connecté à la question
             $question->setUser($this->getUser());

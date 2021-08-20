@@ -27,3 +27,5 @@
 | /api/questions           | api_questions_add      | Api\Question | POST            | add()               |
 | /api/tags                | api_tags_get           | Api\Tag      | GET             | get()               |
 | /api/tags/{id}/questions | api_questions_by_tags  | Api\Tag      | GET             | getQuestionsByTag() |
+| /api/scenario/{id}/scene/{id} | api_questions_by_tags  | Api\Tag      | GET             | getQuestionsByTag() |
+| /api/scenario/{id}/scene/{id}/object/{slug} | api_questions_by_tags  | Api\Tag      | GET             | getQuestionsByTag() |
